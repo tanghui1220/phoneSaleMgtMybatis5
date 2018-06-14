@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.easytop.psm.dao.PhoneDao">
+
+  <insert id="addPhone">
+  		insert into t_phone values(${phone.p_id},#{phone.p_model},#{phone.p_brand},${phone.p_price},#{phone.p_color},#{phone.p_size},#{phone.p_date},#{phone.p_describe})
+  </insert>
+  
+  <select id="deletePhone">
+  		delete from t_phone where p_id = ${id};
+  </select>
+  
+  <select id="findPhone" resultType="com.easytop.psm.model.Phone" parameterType="int">
+  	 select * from t_phone where p_id = ${id};
+  </select>
+  
+  <select id="query" resultType="com.easytop.psm.model.Phone">
+  
+  	   select * from t_phone
+	   <where>
+		   	
+	   		<if test="keyword!=null">
+	   			and  p_id like '${keyword}%' 
+	   		</if>
+	   		
+	   		<if test="p_brand!=null">
+	   			and	p_brand = #{p_brand}
+	   		</if>
+	   		
+	   		<if test="lowest!=null">
+	   			and p_price > #{lowest}
+	   		</if> 
+	   		
+	   		 <if test="maxest!=null">
+	   			and p_price &lt; #{maxest}
+	   		</if> 
+	   </where>
+ 
+  </select>
+  
+</mapper>

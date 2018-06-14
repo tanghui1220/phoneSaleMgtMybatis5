@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.easytop.psm.dao.SellsDao"> 
+
+  <insert id="addSells" parameterType="com.easytop.psm.model.SellEntry">
+  		insert into t_sells values(#{sellEntry.s_date},#{sellEntry.s_sellName},#{sellEntry.s_brand},#{sellEntry.s_model},${sellEntry.s_number})
+  </insert>
+ 
+  <select id="findArea" resultType="String">
+	  	select r_area from t_sells join t_retailers on t_sells.s_sellName = t_retailers.r_name and t_sells.s_sellName like '%%' 
+  		
+  </select>
+  
+  <select id="findArea2" resultType="String" parameterType="String">
+  		 select r_area from t_retailers join t_sells where r_name = s_sellName and s_brand like '${s_sellName}%'
+  		
+  </select>
+  
+  <select id="findSells" resultType="com.easytop.psm.model.SellEntry" parameterType="String">
+  
+ 	 select * from t_sells
+ 	 
+  	<where>
+  		<if test="s_sellName!=null">
+  			and s_sellName like '${s_sellName}%'
+  		</if>
+  		
+  		<if test="s_brand!=null">
+  			and s_brand like '${s_brand}%'		
+  		</if>
+  		
+  		<if test="s_date!=null">
+  			and s_date = '${s_date}'
+  		</if>
+  	</where>
+  </select>
+
+  <select id="queryRetailerArea" resultType="String">
+  	select r_name from t_retailers
+  </select>
+  
+ </mapper>
+ 
+  

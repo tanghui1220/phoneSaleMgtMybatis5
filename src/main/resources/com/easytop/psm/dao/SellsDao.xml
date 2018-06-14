@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.easytop.psm.dao.SellsDao"> 
+
+  <insert id="addSells" parameterType="com.easytop.psm.model.SellEntry">
+  		insert into t_sells values(#{sellEntry.s_date},#{sellEntry.s_sellName},#{sellEntry.s_brand},#{sellEntry.s_model},${sellEntry.s_number})
+  </insert>
+ 
+  <select id="findArea" resultType="String">
+	  	select r_area from t_sells join t_retailers on t_sells.s_sellName = t_retailers.r_name and t_sells.s_sellName like '%%' 
+  		
+  </select>
+  
+  <select id="findArea2" resultType="String" parameterType="String">
+  		 select r_area from t_retailers join t_sells where r_name = s_sellName and s_brand like '${s_sellName}%'
+  		
+  </select>
+  
+  <select id="findSells" resultType="map">
+ 	 select s_date,s_sellName,r_area,s_brand,s_model,s_number from t_sells join t_retailers where s_sellName = r_name
+
+	<if test="search!=null">
+		and concat(s_sellName,s_brand) like '%${search}%'
+	</if>
+ 
+  	limit ${offset},${limit}
+  </select>
+  
+  <select id="sums" resultType="int">
+  		select count(*) from t_retailers join t_sells where s_sellName = r_name and concat(s_sellName,s_brand) like '%${search}%'
+  </select>
+  
+  <select id="queryRetailerArea" resultType="String">
+  	select r_name from t_retailers
+  </select>
+  
+  <select id="queryBrand" resultType="String">
+  	select p_brand from t_phone
+  </select>
+  
+  <select id="queryModel" resultType="String">
+  	select p_describe from t_phone
+  </select>
+  
+  <select id="quertDate" resultType="String">
+  	select s_date from t_sells
+  </select>
+  
+  <select id="areaQuerys" resultType="SellEntry">
+  		select * from t_sells where YEAR(s_date) = ${sql}
+  </select>
+
+ </mapper>
+ 
+  

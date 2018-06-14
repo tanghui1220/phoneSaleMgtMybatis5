@@ -1,0 +1,9 @@
+package com.easytop.psm.dao;
+
+import com.easytop.psm.model.User;
+
+public interface UserDao {
+	
+	public User login(User user); 
+	
+}

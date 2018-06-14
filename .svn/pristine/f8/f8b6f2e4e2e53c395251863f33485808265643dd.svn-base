@@ -1,0 +1,51 @@
+<%@page import="com.easytop.psm.model.Retailer"%>
+<%@page import="java.util.List"%>
+<%@page import="com.easytop.psm.dao.UserDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@page import="java.sql.ResultSet"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>销售商查询</title>
+
+<style>
+	#div2{ width:700px; height:600px; border:1px solid red; margin: -300px -250px; position:absolute; top:50%; left:50%;}
+</style>
+
+<c:import url="catalog.jsp" var="header"></c:import>
+${pageScope.header}
+
+<div id ="div2">
+	<form action="queryRetailer" method="get">
+		查询关键字<input type="text" name="keyword" />
+		区域 <select name="r_area">
+				<option>深圳</option>
+				<option>湖南</option>
+			</select>
+			<input type="submit" value="查询" />
+	</form> 
+	
+	<table border="1" width="550px">
+	<tr bgcolor=#C0C0C0>
+	<td>编号</td><td>销售商名称</td><td>所属区域</td><td>负责人</td><td>联系电话</td><td>联系地址</td><td>操作</td></tr>
+	<%
+	List<Retailer> list = (List<Retailer>)request.getAttribute("list");
+	for(Retailer retailer:list){
+	%>
+		<tr bgcolor=#00FFFF>
+			<td><%=retailer.getR_id()%></td>
+	   		<td><%=retailer.getR_name()%></td>
+		    <td><%=retailer.getR_area()%></td>
+		    <td><%=retailer.getR_principal()%></td>
+		   	<td><%=retailer.getR_phone()%></td>
+		    <td><%=retailer.getR_site()%></td>
+		    <td><a href = "#">删除销售商</a></td>
+	   </tr>
+	<% }  %>	
+	</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+package com.easytop.psm.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.easytop.psm.model.SellEntry;
+
+public interface SellsService {
+
+	//手机销售录入
+	void addSells(SellEntry sellEntry);
+	
+	//拿到销售商的区域
+	List<String> findArea2(String s_sellName);
+	
+	List<String> findArea();
+	
+	
+	//手机销售添加查询
+	List<SellEntry> findSells(String s_sellName,String s_brand, String s_date);
+		
+	//根据时间查询销售量
+	Map<String , Integer> queryDate(String sql);
+	
+	//根据地区查询销售量
+	Map<String, Integer> areaQuerys(String sql);
+	
+	//第一次进 查询所有的销售商用于下拉框
+	List<String> queryRetailerArea();
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.easytop.psm.dao.RetailerDao">
+
+  <insert id="add">
+  		insert into t_retailers values(${retailer.r_id},#{retailer.r_name},#{retailer.r_area},#{retailer.r_principal},#{retailer.r_phone},#{retailer.r_Id_number},#{retailer.r_site},#{retailer.r_postcode})
+  </insert>
+  
+  <select id="remove" parameterType="int">
+  		delete from t_retailers where r_id = ${id};
+  </select>
+  
+  <select id="findById" resultType="com.easytop.psm.model.Retailer" parameterType="int">
+  	 select * from t_retailers where r_id = ${id};
+  </select>
+  
+  <select id="querys" resultType="com.easytop.psm.model.Retailer" >
+  
+  	   select * from t_retailers
+	   <where>
+		   	<if test="key!=null">
+	   			and	r_id like '${key}%'
+	   		</if>
+	   		
+	   		<if test="area!=null">
+	   			and r_area like '${area}%' 
+	   		</if>
+	   </where>
+ 
+  </select>
+  
+  <select id="findRetailers" resultType="com.easytop.psm.model.Retailer" >
+  		select * from t_retailers where concat(r_id,r_name,r_area,r_principal,r_phone,r_ID_number,r_site,r_postcode) like '%${search}%' limit ${offset},${limit}
+  </select>
+  
+  <select id="sums" resultType="int">
+  		select count(*) from t_retailers where concat(r_id,r_name,r_area,r_principal,r_phone,r_ID_number,r_site,r_postcode) like '%${search}%'
+  </select>
+  
+</mapper>

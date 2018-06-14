@@ -1,0 +1,61 @@
+package com.easytop.psm.web.controller;
+
+
+import java.util.List;
+
+import javax.servlet.annotation.WebServlet;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.easytop.psm.model.Phone;
+import com.easytop.psm.service.PhoneService;
+
+@Controller
+@RequestMapping("phone")
+// @WebServlet("/addPhoneServlet")
+public class PhoneOperation{
+	
+	private final static Logger log = Logger.getLogger(PhoneOperation.class);
+
+	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private PhoneService phoneService;
+	
+	@RequestMapping("/add")
+	public String addPhone(Phone phone,ModelMap model) {
+		
+		int tempInt = phoneService.PhoneAdd(phone);
+		
+		if(tempInt == 0) {
+			log.debug("手机添加失败");
+		}else {
+			log.debug("手机添加成功");
+		}
+		return "addPhone";
+	}
+	
+	@RequestMapping("/query")
+	public String doPost(String keyword,String p_brand,String lowest,String maxest,ModelMap model) {
+		
+		if(keyword == null || "".equals(keyword)) {
+			keyword = null;
+		}
+		if(lowest == null || "".equals(lowest)) {
+			lowest = null;
+		}
+		if(maxest == null || "".equals(maxest)) {
+			maxest = null;
+		}
+			
+		List<Phone> list = phoneService.PhoneFind(keyword,p_brand,lowest,maxest);
+		
+		model.addAttribute("list",list);
+		
+		return "/findPhone";
+	}
+}

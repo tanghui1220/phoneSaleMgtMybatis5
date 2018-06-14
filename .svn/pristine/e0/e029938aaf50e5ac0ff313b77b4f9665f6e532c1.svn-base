@@ -1,0 +1,74 @@
+package com.easytop.psm.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.easytop.psm.dao.SellsDao;
+import com.easytop.psm.model.SellEntry;
+import com.easytop.psm.service.SellsService;
+
+@Service
+public class SellServiceImpl implements SellsService {
+	
+	private final static Logger log = Logger.getLogger(SellServiceImpl.class);
+	@Autowired
+	SellsDao sellsDao;
+
+	@Override
+	public void addSells(SellEntry sellEntry) {
+
+		log.debug("添加手机销售量");
+		sellsDao.addSells(sellEntry);
+	}
+
+	@Override
+	public List<SellEntry> findSells(String s_sellName, String s_brand, String s_date) {
+		
+		log.debug("根据条件查询手机销售量");
+		
+		List<SellEntry> list = sellsDao.findSells(s_sellName, s_brand, s_date);
+		
+		return list;
+	}
+	
+	@Override
+	public List<String> findArea2(String s_sellName) {
+		
+		log.debug("根据销售量查询地区");
+		
+		List<String> strList = sellsDao.findArea2(s_sellName);
+		
+		return strList;
+	}
+	
+	@Override
+	public List<String> findArea() {
+		List<String> strList = sellsDao.findArea();
+		return strList;
+	}
+
+	@Override
+	public Map<String, Integer> queryDate(String sql) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Integer> areaQuerys(String sql) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<String> queryRetailerArea() {
+		
+		List<String> list = sellsDao.queryRetailerArea();
+		
+		return list;
+	}
+
+}

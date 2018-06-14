@@ -1,0 +1,61 @@
+<%@page import="com.easytop.psm.model.Phone"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>查询手机</title>
+
+</head>
+<body>
+
+<style>
+	#div2{ width:700px; height:600px; border:1px solid red; margin: -300px -250px; position:absolute; top:50%; left:50%;}
+	input{ width:80px;}
+</style>
+<c:import url="catalog.jsp" var="header"></c:import>
+${pageScope.header}
+
+
+<div id = "div2">
+	<form action="queryPhone" method="get">
+		查询关键字<input type="text" name="keyword" />
+		品牌 <select name="p_brand">
+				<option>华为</option>
+				<option>vivo</option>
+				<option>三星</option>
+				<option>小米</option>
+				<option>苹果</option>
+			</select>
+		价格 <input type="text" name="lowest" />-
+			<input type="text" name="maxest" />
+			
+			<input type="submit" value="查询" />
+	</form> 
+	
+	<table border="1" width="550px">
+	<tr bgcolor=#C0C0C0>
+	<td>编号</td><td>手机型号</td><td>销售价格</td><td>颜色</td><td>尺寸/分辨率</td><td>生成日期</td><td>操作</td></tr>
+	<%
+	List<Phone> list = (List<Phone>)request.getAttribute("list");
+	for(Phone phone:list){
+	%>
+		<tr bgcolor=#00FFFF>
+			<td><%=phone.getP_id()%></td>
+	   		<td><%=phone.getP_model()%></td>
+		    <td><%=phone.getP_price()%></td>
+		    <td><%=phone.getP_color()%></td>
+		   	<td><%=phone.getP_size()%></td>
+		    <td><%=phone.getP_date()%></td>
+		    <td><a href = "#">删除手机</a></td>
+	   </tr>
+	<% }  %>	
+	</table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+package com.easytop.psm.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.easytop.psm.model.SellEntry;
+
+public interface SellsDao {
+	
+	public void addSells(@Param("sellEntry") SellEntry sellEntry);
+	
+	//拿到销售商的区域findArea
+	public List<String> findArea2(@Param("s_sellName") String s_sellName);
+	
+	public List<String> findArea();
+	
+	// 根据条件拿到销售量的信息
+	public List<SellEntry> findSells(@Param("s_sellName") String s_sellName,@Param("s_brand") String s_brand,@Param("s_date") String s_date);
+	 
+	// 根据时间拿到拿到销售量的信息
+	public Map<String, Integer> findSells(String sql);
+
+	//根据地区查询销售量
+	public Map<String, Integer> areaQuerys(String sql);
+	
+	public List<String> queryRetailerArea(@Param("s_sellName") String s_sellName);
+	
+	public List<String> queryRetailerArea();
+	
+	public List<String> retailerArea();
+	
+}

@@ -1,0 +1,22 @@
+package com.easytop.psm.service;
+
+import com.easytop.psm.model.Phone;
+
+public interface PhoneService {
+	
+
+	//手机添加
+	int PhoneAdd(Phone phone);
+	
+	//删除手机
+	void PhoneDelete(int id);
+	
+	//查看手机
+	Phone PhoneFind(int id);
+	
+	//根据条件查询
+	java.util.List<Phone> PhoneFind(String keyword,String p_brand,String lowest,String maxest);
+	
+	
+	
+}

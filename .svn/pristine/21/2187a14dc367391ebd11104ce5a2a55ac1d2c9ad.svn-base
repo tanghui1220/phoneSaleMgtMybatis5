@@ -1,0 +1,83 @@
+package com.easytop.psm.web.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.easytop.psm.model.Phone;
+import com.easytop.psm.model.SellEntry;
+import com.easytop.psm.service.SellsService;
+
+/**
+ * @author 唐辉
+ *	销售量 添加
+ */
+@Controller
+@RequestMapping("sell")
+public class AddSellServlet{
+	
+	public static final Logger log = Logger.getLogger(AddSellServlet.class);
+	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private SellsService sellsService;
+	
+	
+	// 程序第一次进 值为空 执行这个方法就不会报错
+	@ModelAttribute("sell") 
+	public SellEntry getSellEntry() {
+		return new SellEntry();
+	}
+	
+	@RequestMapping("/add")
+	public String add(SellEntry sellEntry,ModelMap model) {
+		
+		log.debug("正在进行手机销售量添加:"+sellEntry);
+		sellsService.addSells(sellEntry);
+			
+		List<String> list = sellsService.queryRetailerArea();
+		
+		model.addAttribute("list",list);
+		
+		return "/addSell";
+	}
+	
+	@ModelAttribute("areas")
+	public List<String> getAreas(){
+		
+		//用于得到地区  用于下拉框显示
+		return sellsService.queryRetailerArea();
+			
+	}
+	
+	
+	@RequestMapping("/query") 
+	public String query(String s_sellName,String s_brand,String s_date,ModelMap model) {
+		
+		log.debug("正在查询手机销售量:");
+		List<String> strList = new ArrayList<>();
+		
+		if(s_brand == null || s_brand.equals("")) {
+			s_brand = "";
+			strList = sellsService.findArea2(s_brand);
+		}else {
+			strList = sellsService.findArea2(s_brand);
+		}
+		List<String> lists = sellsService.queryRetailerArea();
+		List<SellEntry> list = sellsService.findSells(s_sellName, s_brand, s_date);
+		
+		
+		model.addAttribute("lists", lists);
+		model.addAttribute("list", list);
+		model.addAttribute("strList", strList);
+		
+		return "/findSells";
+	}
+	
+}
